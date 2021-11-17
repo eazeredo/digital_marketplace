@@ -35,7 +35,7 @@ oc -n ccc866-tools process -f templates/app/app-digmkt-build.yaml -p ENV_NAME=pr
 
 If the build already exists the `create` option will error out.  This can be fixed by using `apply` instead of `create`.  Once the build config is successfully created, run:
 
-`oc start-build <buildconfig_name>` 
+`oc start-build -n <namespace> <buildconfig_name>` 
 
 to trigger the build.
 
@@ -82,7 +82,7 @@ oc process -f templates/database/patroni-digmkt-deploy.yaml | oc apply -f -
 
 ------
 
-To deploy the Digital Marketplace app, run these commands in each namespace (dev/test/prod).
+To deploy the Digital Marketplace app, run these commands in each namespace (dev/test/prod). If there is an existing deployment config see below.
 Replace `<secret>` with the KeyCloak client secret for the target environment.
 
 To password protect the dev and test namespace deployments, replace `BASIC_AUTH_USERNAME` and `BASIC_AUTH_PASSWORD_HASH` with the basic auth credentials desired. Leaving these parameters off the deployment command will deactivate login. The hashed password can be generated using the npm library bcrypt `bcrypt.hash('<password>',10)`. (NOTE:  This login is unrelated to keycloak authentication.)
@@ -104,6 +104,8 @@ oc -n ccc866-test process -f templates/app/app-digmkt-deploy.yaml \
 -p KEYCLOAK_CLIENT_SECRET=<secret> \
 -p KEYCLOAK_URL=https://test.oidc.gov.bc.ca \
 -p SHOW_TEST_INDICATOR=1 \
+-p BASIC_AUTH_USERNAME=<username> \
+-p BASIC_AUTH_PASSWORD_HASH=<hashed_password> \
 -p DATABASE_SERVICE_NAME=postgresql | oc create -f -
 ```
 
@@ -126,6 +128,8 @@ oc -n ccc866-dev process -f templates/app/app-digmkt-deploy.yaml \
 -p KEYCLOAK_CLIENT_SECRET=<secret> \
 -p KEYCLOAK_URL=https://dev.oidc.gov.bc.ca \
 -p SHOW_TEST_INDICATOR=1 \
+-p BASIC_AUTH_USERNAME=<username> \
+-p BASIC_AUTH_PASSWORD_HASH=<hashed_password> \
 -p DATABASE_SERVICE_NAME=postgresql | oc apply -f -
 ```
 ```
@@ -134,6 +138,8 @@ oc -n ccc866-test process -f templates/app/app-digmkt-deploy.yaml \
 -p KEYCLOAK_CLIENT_SECRET=<secret> \
 -p KEYCLOAK_URL=https://test.oidc.gov.bc.ca \
 -p SHOW_TEST_INDICATOR=1 \
+-p BASIC_AUTH_USERNAME=<username> \
+-p BASIC_AUTH_PASSWORD_HASH=<hashed_password> \
 -p DATABASE_SERVICE_NAME=postgresql | oc apply -f -
 ```
 
@@ -148,7 +154,7 @@ oc -n ccc866-prod process -f templates/app/app-digmkt-deploy.yaml \
 
 Note 1: When `apply` is used the deployment will not be automatically triggered.  That is done with the command:
 
-`oc -n ccc866-dev rollout latest dc/<deploymentconfig_name>`
+`oc -n <namespace> rollout latest dc/<deploymentconfig_name>`
 
 Note 2: the `apply` command will not override an existing `KEYCLOAK_CLIENT_SECRET` stored in the OCP namespace.  
 If the `KEYCLOAK_CLIENT_SECRET` needs to be changed, the previous one will need to be deleted (in the namespace) before generating the new one.
