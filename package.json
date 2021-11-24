@@ -91,6 +91,8 @@
     "yargs": "^16.0.3"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^12.1.2",
     "@types/cors": "^2.8.7",
     "@types/html-to-text": "^1.4.31",
     "@types/jest": "^27.0.3",
