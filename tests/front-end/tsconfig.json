@@ -4,6 +4,7 @@
     "moduleResolution": "node",
     "noErrorTruncation": true,
     "allowJs": true,
+    "jsx": "react",
     "noEmit": true,
     "strict": true,
     "noImplicitReturns": true,
