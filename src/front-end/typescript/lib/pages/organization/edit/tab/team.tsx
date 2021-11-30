@@ -12,7 +12,7 @@ import { makeViewTeamMemberModal, OwnerBadge, PendingBadge } from 'front-end/lib
 import { userAvatarPath } from 'front-end/lib/pages/user/lib';
 import Capabilities, { Capability } from 'front-end/lib/views/capabilities';
 import Icon from 'front-end/lib/views/icon';
-import Link, { iconLinkSymbol, imageLinkSymbol, leftPlacement } from 'front-end/lib/views/link';
+import Link, { iconLinkSymbol, imageLinkSymbol, leftPlacement, routeDest } from 'front-end/lib/views/link';
 import React from 'react';
 import { Col, Row } from 'reactstrap';
 import CAPABILITIES from 'shared/lib/data/capabilities';
@@ -20,6 +20,7 @@ import { AffiliationMember, memberIsOwner, memberIsPending, membersHaveCapabilit
 import { isAdmin, isVendor } from 'shared/lib/resources/user';
 import { adt, ADT, Id } from 'shared/lib/types';
 import { validateUserEmail } from 'shared/lib/validation/affiliation';
+import * as PageUserProfile from 'front-end/lib/pages/user/profile';
 
 type ModalId
   = ADT<'addTeamMembers'>
@@ -38,8 +39,8 @@ export interface State extends Tab.Params {
   addTeamMembersEmails: Array<Immutable<ShortText.State>>;
 }
 
-export type InnerMsg
-  = ADT<'addTeamMembers'>
+export type InnerMsg =
+  | ADT<'addTeamMembers'>
   | ADT<'removeTeamMember', AffiliationMember> //Id of affiliation, not user
   | ADT<'approveAffiliation', AffiliationMember>
   | ADT<'showModal', ModalId>
@@ -47,7 +48,8 @@ export type InnerMsg
   | ADT<'membersTable', Table.Msg>
   | ADT<'addTeamMembersEmails', [number, ShortText.Msg]> //[index, msg]
   | ADT<'addTeamMembersEmailsAddField'>
-  | ADT<'addTeamMembersEmailsRemoveField', number>; //index
+  | ADT<'addTeamMembersEmailsRemoveField', number> //index
+  | ADT<'userProfile', PageUserProfile.RouteParams>;
 
 export type Msg = GlobalComponentMsg<InnerMsg, Route>;
 
@@ -296,6 +298,18 @@ function membersTableBodyRows(props: ComponentViewProps<State, Msg>): Table.Body
               : null}
             {memberIsPending(m)
               ? (<PendingBadge className='ml-3' />)
+              : null}
+            {
+              state.viewerUser.id === m.user.id
+              ? (<Link
+                button
+                disabled={isLoading}
+                loading={isApproveLoading}
+                size='sm'
+                color='warning'
+                className='ml-2'
+                dest={routeDest(adt('userProfile', { userId: state.viewerUser.id, tab: 'capabilities' as const }))}>
+                Edit Capabilites</Link>)
               : null}
           </div>
         ),
