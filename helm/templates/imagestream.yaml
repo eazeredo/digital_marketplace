@@ -1,0 +1,4 @@
+apiVersion: v1
+kind: ImageStream
+metadata:
+  name: {{ .Values.name }}-{{ .Values.app_group }}-{{ .Values.env_name }}

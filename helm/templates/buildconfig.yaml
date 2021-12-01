@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  labels:
+    app: {{ .Values.name }}
+    app-group: {{ .Values.app_group }}
+    template: {{ .Values.name }}-build
+  name: {{ .Values.name }}-{{ .Values.app_group }}-{{ .Values.env_name }}
+spec:
+  output:
+    to:
+      kind: ImageStreamTag
+      name: {{ .Values.name }}-{{ .Values.app_group }}-{{ .Values.env_name }}:{{ .Values.output_image_tag }}
+  resources:
+    limits:
+      cpu: 2
+      memory: 4Gi
+    requests:
+      cpu: 1
+      memory: 2Gi
+  source:
+    git:
+      ref: {{ .Values.git_ref }}
+      uri: {{ .Values.git_repo_url }}
+    type: Git
+  strategy:
+    dockerStrategy:
+      dockerfilePath: src/front-end/Dockerfile
+      from:
+        kind: {{ .Values.source_image_kind }}
+        name: {{ .Values.source_image_name_space }}/{{ .Values.source_image_name }}:{{ .Values.source_image_tag }}
+    env:
+    - name: SET_TEST_INDICATOR
+      value: ${SET_TEST_INDICATOR}
+    type: Source
