@@ -4,7 +4,7 @@
 
 replicaCount: 3
 
-name: dm_app
+name: dm-app-on-test
 app_group: digmkt
 env_name: dev
 tag_name: dev
