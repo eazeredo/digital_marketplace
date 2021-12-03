@@ -8,7 +8,7 @@ entries:
     digest: 643db1a7e54a40ef1bf105e11fa79c62f27c027f5c66c8638c2b511fb2329be0
     name: digital-marketplace
     urls:
-    - https://raw.githubusercontent.com/bcgov/digital_marketplace/tree/helm-deployment/docs/helm/digital-marketplace-0.0.1.tgz
+    - https://bcgov.github.io/digital_marketplace/helm/digital-marketplace-0.0.1.tgz
     version: 0.0.1
   helm-chart-test:
   - apiVersion: v2
@@ -19,6 +19,6 @@ entries:
     name: helm-chart-test
     type: application
     urls:
-    - https://raw.githubusercontent.com/bcgov/digital_marketplace/tree/helm-deployment/docs/helm/helm-chart-test-0.1.0.tgz
+    - https://bcgov.github.io/digital_marketplace/helm/helm-chart-test-0.1.0.tgz
     version: 0.1.0
 generated: "2021-12-02T15:53:40.702170677-08:00"
