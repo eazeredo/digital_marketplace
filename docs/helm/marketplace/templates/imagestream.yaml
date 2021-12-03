@@ -1,4 +1,4 @@
-apiVersion:  build.openshift.io/v1
+apiVersion:  image.openshift.io/v1
 kind: ImageStream
 metadata:
   name: {{ .Values.name }}-{{ .Values.app_group }}-{{ .Values.env_name }}
