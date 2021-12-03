@@ -1,4 +1,4 @@
-apiVersion:  deploy.openshift.io/v1
+apiVersion:  apps/v1
 kind: DeploymentConfig
 metadata:
   labels:
