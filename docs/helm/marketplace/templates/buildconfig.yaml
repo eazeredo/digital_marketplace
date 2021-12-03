@@ -29,7 +29,4 @@ spec:
       from:
         kind: {{ .Values.source_image_kind }}
         name: {{ .Values.source_image_name_space }}/{{ .Values.source_image_name }}:{{ .Values.source_image_tag }}
-    env:
-      - name: SET_TEST_INDICATOR
-        value: {{.Values.show_test_indicator}}
     type: Source
