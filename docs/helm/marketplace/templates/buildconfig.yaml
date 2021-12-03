@@ -31,5 +31,5 @@ spec:
         name: {{ .Values.source_image_name_space }}/{{ .Values.source_image_name }}:{{ .Values.source_image_tag }}
     env:
     - name: SET_TEST_INDICATOR
-      value: ${SET_TEST_INDICATOR}
+      value: {{.Values.show_test_indicator}}
     type: Source
